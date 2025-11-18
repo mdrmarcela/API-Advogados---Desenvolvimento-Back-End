@@ -15,7 +15,7 @@ const processoRoutes = require('./app/routes/processo.routes');
 app.use('/processos', processoRoutes);
 
 // porta
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`servidor on-line na porta ${PORT}`);
 });

@@ -1,98 +1,50 @@
--- MySQL Workbench Forward Engineering
+-- garante que o banco exista
+CREATE DATABASE IF NOT EXISTS advogados_db
+  DEFAULT CHARACTER SET utf8mb4
+  DEFAULT COLLATE utf8mb4_unicode_ci;
 
-SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
-SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
-SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
+USE advogados_db;
 
--- -----------------------------------------------------
--- Schema apiplayerdb
--- -----------------------------------------------------
+-- apaga tabelas antigas se tiver algo errado (cuidado: perde dados)
+DROP TABLE IF EXISTS processos;
+DROP TABLE IF EXISTS usuarios;
+DROP TABLE IF EXISTS advogados;
 
--- -----------------------------------------------------
--- Schema apiplayerdb
--- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `apiplayerdb` ;
-USE `apiplayerdb` ;
+-- TABELA USUÁRIOS
+CREATE TABLE usuarios (
+  id INT NOT NULL AUTO_INCREMENT,
+  nome VARCHAR(100) NOT NULL,
+  email VARCHAR(150) NOT NULL UNIQUE,
+  senha VARCHAR(255) NOT NULL,
+  created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (id)
+) ENGINE=InnoDB;
 
--- -----------------------------------------------------
--- Table `apiplayerdb`.`jogador`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `apiplayerdb`.`jogador` ;
+-- TABELA ADVOGADOS
+CREATE TABLE advogados (
+  id INT NOT NULL AUTO_INCREMENT,
+  nome VARCHAR(100) NOT NULL,
+  oab VARCHAR(20) NOT NULL UNIQUE,
+  especialidade VARCHAR(100) NOT NULL,
+  created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (id)
+) ENGINE=InnoDB;
 
-CREATE TABLE IF NOT EXISTS `apiplayerdb`.`jogador` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `nome` VARCHAR(200) NOT NULL,
-  `ataque` INT NOT NULL,
-  `defesa` INT NOT NULL,
-  `pontos_vida` INT NOT NULL,
-  PRIMARY KEY (`id`))
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `apiplayerdb`.`equipamento`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `apiplayerdb`.`equipamento` ;
-
-CREATE TABLE IF NOT EXISTS `apiplayerdb`.`equipamento` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `id_jogador` INT NOT NULL,
-  `descricao` VARCHAR(150) NULL,
-  `bonus_ataque` INT NULL,
-  `bonus_defesa` INT NULL,
-  PRIMARY KEY (`id`),
-  INDEX `fk_equipamento_jogador1_idx` (`id_jogador` ASC),
-  CONSTRAINT `fk_equipamento_jogador1`
-    FOREIGN KEY (`id_jogador`)
-    REFERENCES `apiplayerdb`.`jogador` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `apiplayerdb`.`equipamento`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `apiplayerdb`.`equipamento` ;
-
-CREATE TABLE IF NOT EXISTS `apiplayerdb`.`equipamento` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `id_jogador` INT NOT NULL,
-  `descricao` VARCHAR(150) NULL,
-  `bonus_ataque` INT NULL,
-  `bonus_defesa` INT NULL,
-  PRIMARY KEY (`id`),
-  INDEX `fk_equipamento_jogador1_idx` (`id_jogador` ASC),
-  CONSTRAINT `fk_equipamento_jogador1`
-    FOREIGN KEY (`id_jogador`)
-    REFERENCES `apiplayerdb`.`jogador` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Data for table `apiplayerdb`.`jogador`
--- -----------------------------------------------------
-START TRANSACTION;
-USE `apiplayerdb`;
-INSERT INTO `apiplayerdb`.`jogador` (`id`, `nome`, `ataque`, `defesa`, `pontos_vida`) VALUES (DEFAULT, 'player1', 40, 50, 100);
-
-COMMIT;
-
-
--- -----------------------------------------------------
--- Data for table `apiplayerdb`.`equipamento`
--- -----------------------------------------------------
-START TRANSACTION;
-USE `apiplayerdb`;
-INSERT INTO `apiplayerdb`.`equipamento` (`id`, `id_jogador`, `descricao`, `bonus_ataque`, `bonus_defesa`) VALUES (DEFAULT, 1, 'espada', 30, 15);
-INSERT INTO `apiplayerdb`.`equipamento` (`id`, `id_jogador`, `descricao`, `bonus_ataque`, `bonus_defesa`) VALUES (DEFAULT, 1, 'escudo', 5, 80);
-
-COMMIT;
-
-
-SET SQL_MODE=@OLD_SQL_MODE;
-SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
-SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
-
+-- TABELA PROCESSOS
+CREATE TABLE processos (
+  id INT NOT NULL AUTO_INCREMENT,
+  numero_processo VARCHAR(50) NOT NULL UNIQUE,
+  descricao TEXT NULL,
+  status VARCHAR(20) NOT NULL DEFAULT 'aberto',
+  id_advogado INT NOT NULL,
+  created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (id),
+  CONSTRAINT fk_processos_advogado
+    FOREIGN KEY (id_advogado)
+    REFERENCES advogados(id)
+    ON DELETE RESTRICT
+    ON UPDATE CASCADE
+) ENGINE=InnoDB;

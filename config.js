@@ -1,26 +1,25 @@
+// config.js
 module.exports = {
-  port: process.env.PORT || 3000,
-  jwt: {
-    secret: process.env.SECRET,
-    expiration: 3600,
-  }, //3600 = 1 hora em segundos
   dbconfig: {
-    host: process.env.DBHOST,
-    database: process.env.DBNAME,
-    user: process.env.DBUSER,
-    passwd: process.env.DBPASS,
-    dialect: process.env.DBDIALECT,
+    database: 'advocacia_db', // nome do banco que você criou no phpMyAdmin
+    user: 'root',             // padrão do XAMPP
+    passwd: '',               // senha em branco (se não configurou outra)
+    host: 'localhost',
+    dialect: 'mysql',
+
     pool: {
       max: 5,
       min: 0,
       acquire: 30000,
       idle: 10000,
     },
+
     define: {
-      underscored: true, //usa underline para separacao de palavras = createdAt fica created_at
-      freezeTableName: true, //bloqueia a adicao de s para o plural em ingles pelo processador do sequelize
-      timestamps: true, //habilita/desabilita timestamps
-      paranoid: false, //habilita soft delete
+      underscored: false,
+      freezeTableName: false,
+      timestamps: true, // se NÃO quiser createdAt/updatedAt, pode pôr false
+      paranoid: false,
     },
   },
 };
+

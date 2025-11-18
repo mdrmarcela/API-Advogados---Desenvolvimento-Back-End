@@ -1,14 +1,14 @@
-//foi optado em implementar os relacionamentos em arquivo separado
-//porem cada relacionamento pode ser implementado dentro de sua model separadamente
+// models/relations.js
+// relacionamentos separados em arquivo próprio
 module.exports = function (models) {
-  //este relacionamento poderia estar em app/models/Jogador:
-  models.jogador.hasMany(models.equipamento, {
-    foreignKey: 'id_jogador', //nome da FK
-    onDelete: 'SET NULL', //configuracao da FK
+  // Advogado 1:N Processo
+  models.advogado.hasMany(models.processo, {
+    foreignKey: 'id_advogado', // nome da FK em Processo
+    onDelete: 'CASCADE',
   });
-  //este relacionamento poderia estar em app/models/Equipamento:
-  models.equipamento.belongsTo(models.jogador, {
-    foreignKey: 'id_jogador',
-    onDelete: 'SET NULL',
+
+  models.processo.belongsTo(models.advogado, {
+    foreignKey: 'id_advogado',
+    onDelete: 'CASCADE',
   });
 };

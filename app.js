@@ -1,33 +1,23 @@
-require('dotenv').config();
 const express = require('express');
-const config = require('./config.js');
-const cors = require('cors');
 const app = express();
-//PRE-CONFIGURACAO
-app.use(express.json()); //parser dados de requisicoes em JSON
-app.use(
-  cors({
-    origin: '*',
-  })
-);
 
-//BANCO DE DADOS
-const conexao = require('./app/models'); //inicializa a config do BD com sequelize
+// middleware pra ler JSON do body
+app.use(express.json());
 
-//ROTAS
-app.get('/', (request, response) => {
-  response.json({
-    //documento JSON
-    message: 'Game API',
-    version: '1.0',
-  });
+// importa as rotas de usuário
+const usuarioRoutes = require('./app/routes/usuario.routes');
+app.use('/usuarios', usuarioRoutes); // ← ISSO faz existir POST /usuarios
+
+const advogadoRoutes = require('./app/routes/advogado.routes');
+app.use('/advogados', advogadoRoutes);
+
+const processoRoutes = require('./app/routes/processo.routes');
+app.use('/processos', processoRoutes);
+
+// porta
+const PORT = process.env.PORT || 3001;
+app.listen(PORT, () => {
+  console.log(`servidor on-line na porta ${PORT}`);
 });
-const jogadorRotas = require('./app/routes/jogador.routes.js');
-const clienteRotas = require('./app/routes/cliente.routes.js');
-app.use(jogadorRotas);
-app.use(clienteRotas);
 
-//RODANDO SERVER
-app.listen(config.port, () => {
-  console.log('servidor on-line');
-});
+module.exports = app;

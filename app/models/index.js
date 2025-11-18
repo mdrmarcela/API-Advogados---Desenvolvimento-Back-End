@@ -1,18 +1,19 @@
+// app/models/index.js
 const conexao = require('./conexao.js');
 
-const db = {}; //armazenar as classes e models
+const db = {}; // armazenar as classes e models
 
-//importar aqui para atribuir na lista de models e inicializar o BD:
-db.jogador = require('./Jogador.js');
-db.equipamento = require('./Equipamento.js');
-db.cliente = require('./Cliente.js');
+// === MODELS DA PROVA ===
+db.usuario = require('./Usuario.js');   // arquivo: app/models/Usuario.js
+db.advogado = require('./Advogado.js'); // arquivo: app/models/Advogado.js
+db.processo = require('./Processo.js'); // arquivo: app/models/Processo.js
 
-//lista de associacoes
+// RELACIONAMENTOS (Advogado 1:N Processo)
 require('./relations.js')(conexao.models);
 
-//conectando e sincronizando com BD
+// sincronizar com o BD
 conexao
-  .sync({}) //{ force: true } --> para forcar a recriacao do banco
+  .sync({})
   .then(() => {
     console.log('sincronizacao com bd...');
   })

@@ -1,4 +1,5 @@
 const express = require('express');
+require('dotenv').config(); // carrega JWT_SECRET etc.
 const app = express();
 
 // middleware pra ler JSON do body

@@ -2,6 +2,10 @@
 const express = require('express');
 const router = express.Router();
 const AdvogadoController = require('../controllers/AdvogadoController');
+const TokenValido = require('../middlewares/TokenValido');
+
+// protege TODAS as rotas de advogado
+router.use(TokenValido.check);
 
 // CRUD
 router.post('/', AdvogadoController.criar);           // criar

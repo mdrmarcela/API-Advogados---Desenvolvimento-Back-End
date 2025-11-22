@@ -21,5 +21,11 @@ module.exports = {
       paranoid: false,
     },
   },
-};
 
+  // 🔐 CONFIG DO JWT
+  jwt: {
+    // pode deixar fixa ou pegar de variável de ambiente
+    secret: process.env.JWT_SECRET || 'uma_chave_bem_grande_e_secreta',
+    expiresIn: '1h', // 1 hora, combina com o que usamos no login
+  },
+};

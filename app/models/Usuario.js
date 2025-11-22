@@ -85,15 +85,16 @@ const UsuarioModel = db.define(
     email: {
       type: Sequelize.STRING(80),
       allowNull: false,
-      unique: true, // enunciado pede email único
+      unique: true,
     },
     senha: {
-      type: Sequelize.STRING(255), // hash é maior
+      type: Sequelize.STRING(255),
       allowNull: false,
     },
   },
   {
     tableName: 'usuarios',
+    timestamps: false, // 👈 IMPORTANTE: diz pro Sequelize que NÃO existem createdAt/updatedAt
     hooks: {
       async beforeCreate(usuario) {
         if (usuario.senha) {
@@ -110,5 +111,6 @@ const UsuarioModel = db.define(
     },
   }
 );
+
 
 module.exports = { Usuario, UsuarioModel };

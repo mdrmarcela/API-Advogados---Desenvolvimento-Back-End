@@ -1,18 +1,39 @@
 // app/controllers/AdvogadoController.js
 const models = require('../models');
 const { AdvogadoModel } = models.advogado;
+const { ProcessoModel } = models.processo; // pra checar processos vinculados
+
+// ===== AJV (validação) =====
+const Ajv = require('ajv');
+const ajv = new Ajv({ allErrors: true });
+
+const schemaAdvogado = {
+  type: 'object',
+  required: ['nome', 'oab', 'especialidade'],
+  properties: {
+    nome: { type: 'string', minLength: 1 },
+    oab: { type: 'string', minLength: 3 },
+    especialidade: { type: 'string', minLength: 1 },
+  },
+  additionalProperties: false,
+};
+
+const validateAdvogado = ajv.compile(schemaAdvogado);
 
 const AdvogadoController = {
   // POST /advogados
   async criar(req, res) {
+    // valida com Ajv
+    const valido = validateAdvogado(req.body);
+    if (!valido) {
+      return res.status(400).json({
+        erro: 'Dados inválidos para advogado',
+        detalhes: validateAdvogado.errors,
+      });
+    }
+
     try {
       const { nome, oab, especialidade } = req.body;
-
-      if (!nome || !oab || !especialidade) {
-        return res.status(400).json({
-          erro: 'nome, oab e especialidade são obrigatórios',
-        });
-      }
 
       const advogado = await AdvogadoModel.create({ nome, oab, especialidade });
       return res.status(201).json(advogado);
@@ -55,6 +76,15 @@ const AdvogadoController = {
 
   // PUT /advogados/:id
   async atualizar(req, res) {
+    // valida com Ajv
+    const valido = validateAdvogado(req.body);
+    if (!valido) {
+      return res.status(400).json({
+        erro: 'Dados inválidos para advogado',
+        detalhes: validateAdvogado.errors,
+      });
+    }
+
     try {
       const { id } = req.params;
       const { nome, oab, especialidade } = req.body;
@@ -84,13 +114,26 @@ const AdvogadoController = {
     try {
       const { id } = req.params;
 
+      // REGRA DE NEGÓCIO DA PROVA:
+      // não permitir excluir advogado com processos vinculados
+      const qtdProcessos = await ProcessoModel.count({
+        where: { id_advogado: id },
+      });
+
+      if (qtdProcessos > 0) {
+        return res.status(409).json({
+          erro: 'Não é possível excluir advogado com processos vinculados',
+        });
+      }
+
       const apagados = await AdvogadoModel.destroy({ where: { id } });
 
       if (apagados === 0) {
         return res.status(404).json({ erro: 'Advogado não encontrado' });
       }
 
-      return res.status(204).send(); // sem conteúdo
+      // pode ser 204 ou 200, mas 204 está ok
+      return res.status(204).send();
     } catch (error) {
       console.error(error);
       return res.status(500).json({ erro: 'Erro ao deletar advogado' });

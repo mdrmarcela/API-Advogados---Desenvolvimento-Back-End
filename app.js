@@ -11,13 +11,13 @@ app.use(express.json());
 
 // importa as rotas de usuário
 const usuarioRoutes = require('./app/routes/usuario.routes');
-app.use('/usuarios', usuarioRoutes); // ← ISSO faz existir POST /usuarios
+app.use('/usuario', usuarioRoutes); // ← ISSO faz existir POST /usuarios
 
 const advogadoRoutes = require('./app/routes/advogado.routes');
-app.use('/advogados', advogadoRoutes);
+app.use('/advogados', auth,  advogadoRoutes);
 
 const processoRoutes = require('./app/routes/processo.routes');
-app.use('/processos', processoRoutes);
+app.use('/processos', auth, processoRoutes);
 
 // porta
 const PORT = process.env.PORT || 3000;

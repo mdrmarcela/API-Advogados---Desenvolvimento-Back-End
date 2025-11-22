@@ -5,17 +5,59 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const config = require('../../config.js'); // mesmo caminho que o tokenValido usa
 
+// ===== AJV (validação) =====
+const Ajv = require('ajv');
+const ajv = new Ajv({ allErrors: true });
+
+// schema para CADASTRO
+const schemaCadastroUsuario = {
+  type: 'object',
+  required: ['nome', 'email', 'senha'],
+  properties: {
+    nome: { type: 'string', minLength: 1 },
+    email: {
+      type: 'string',
+      minLength: 5,
+      // simples, sem precisar de plugin de formato
+      pattern: '^.+@.+\\..+$',
+    },
+    senha: { type: 'string', minLength: 6 },
+  },
+  additionalProperties: false,
+};
+
+// schema para LOGIN
+const schemaLoginUsuario = {
+  type: 'object',
+  required: ['email', 'senha'],
+  properties: {
+    email: {
+      type: 'string',
+      minLength: 5,
+      pattern: '^.+@.+\\..+$',
+    },
+    senha: { type: 'string', minLength: 6 },
+  },
+  additionalProperties: false,
+};
+
+const validateCadastro = ajv.compile(schemaCadastroUsuario);
+const validateLogin = ajv.compile(schemaLoginUsuario);
+
 const UsuarioController = {
   // POST /usuarios  (cadastro)
   async criar(req, res) {
+    // valida com Ajv
+    const valido = validateCadastro(req.body);
+    if (!valido) {
+      return res.status(400).json({
+        erro: 'Dados inválidos para cadastro',
+        detalhes: validateCadastro.errors,
+      });
+    }
+
     try {
       const { nome, email, senha } = req.body;
-
-      if (!nome || !email || !senha) {
-        return res
-          .status(400)
-          .json({ erro: 'nome, email e senha são obrigatórios' });
-      }
 
       // evita cadastro duplicado
       const usuarioExistente = await UsuarioModel.findOne({ where: { email } });
@@ -23,13 +65,27 @@ const UsuarioController = {
         return res.status(409).json({ erro: 'E-mail já cadastrado' });
       }
 
-      // senha será hasheada pelo hook do model
+      // senha será hasheada pelo hook do model (beforeCreate)
       const usuario = await UsuarioModel.create({ nome, email, senha });
+
+      // gera token JWT
+      const payload = {
+        id: usuario.id,
+        email: usuario.email,
+        nome: usuario.nome,
+      };
+
+      const token = jwt.sign(payload, config.jwt.secret, {
+        expiresIn: config.jwt.expiresIn || '1h',
+      });
 
       // remove a senha da resposta
       const { senha: _senha, ...usuarioSemSenha } = usuario.toJSON();
 
-      return res.status(201).json(usuarioSemSenha);
+      return res.status(201).json({
+        usuario: usuarioSemSenha,
+        token,
+      });
     } catch (error) {
       console.error(error);
       return res.status(500).json({ erro: 'Erro ao criar usuário' });
@@ -38,14 +94,17 @@ const UsuarioController = {
 
   // POST /usuarios/login  (login + geração do token)
   async login(req, res) {
+    // valida com Ajv
+    const valido = validateLogin(req.body);
+    if (!valido) {
+      return res.status(400).json({
+        erro: 'Dados inválidos para login',
+        detalhes: validateLogin.errors,
+      });
+    }
+
     try {
       const { email, senha } = req.body;
-
-      if (!email || !senha) {
-        return res
-          .status(400)
-          .json({ erro: 'email e senha são obrigatórios' });
-      }
 
       const usuario = await UsuarioModel.findOne({ where: { email } });
 

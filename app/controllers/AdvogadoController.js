@@ -1,7 +1,10 @@
 // app/controllers/AdvogadoController.js
 const models = require('../models');
-const { AdvogadoModel } = models.advogado;
-const { ProcessoModel } = models.processo; // pra checar processos vinculados
+
+const AdvogadoModel =
+  models.advogado.AdvogadoModel || models.advogado;
+const ProcessoModel =
+  models.processo.ProcessoModel || models.processo;
 
 // ===== AJV (validação) =====
 const Ajv = require('ajv');

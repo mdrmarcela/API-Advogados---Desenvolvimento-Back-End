@@ -1,23 +1,29 @@
-const express = require('express');
 // app.js
-require('./models'); // só isso já executa as associações
+const express = require('express');
 require('dotenv').config(); // carrega JWT_SECRET etc.
+
+// carrega models + relations + sync com o BD
+require('./app/models'); // ← AQUI é o caminho certo
+
 const app = express();
-
-
 
 // middleware pra ler JSON do body
 app.use(express.json());
 
-// importa as rotas de usuário
+// middleware de autenticação
+const auth = require('./app/middlewares/TokenValido');
+
+// rotas
 const usuarioRoutes = require('./app/routes/usuario.routes');
-app.use('/usuario', usuarioRoutes); // ← ISSO faz existir POST /usuarios
-
 const advogadoRoutes = require('./app/routes/advogado.routes');
-app.use('/advogados', auth,  advogadoRoutes);
-
 const processoRoutes = require('./app/routes/processo.routes');
-app.use('/processos', auth, processoRoutes);
+
+// rotas públicas
+app.use('/usuario', usuarioRoutes);
+
+// rotas protegidas
+app.use('/advogados', auth.check, advogadoRoutes);
+app.use('/processos', auth.check, processoRoutes);
 
 // porta
 const PORT = process.env.PORT || 3000;

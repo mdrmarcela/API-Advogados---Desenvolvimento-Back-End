@@ -1,6 +1,8 @@
 // app/controllers/UsuarioController.js
 const models = require('../models');
-const { UsuarioModel } = models.usuario; // vem de module.exports = { Usuario, UsuarioModel }
+// Se models.usuario tiver .UsuarioModel, usa ele.
+// Se não tiver, usa o próprio models.usuario como model.
+const UsuarioModel = models.usuario.UsuarioModel || models.usuario;
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const config = require('../../config.js'); // mesmo caminho que o tokenValido usa

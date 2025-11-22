@@ -1,8 +1,11 @@
 // app/controllers/ProcessoController.js
 const models = require('../models');
-const { ProcessoModel } = models.processo;
-const { AdvogadoModel } = models.advogado;
+const ProcessoModel =
+  models.processo.ProcessoModel || models.processo;
+const AdvogadoModel =
+  models.advogado.AdvogadoModel || models.advogado;
 
+// app/controllers/ProcessoController.js (topo, parte do AJV)
 const Ajv = require('ajv');
 const ajv = new Ajv({ allErrors: true });
 
@@ -13,6 +16,7 @@ const schemaProcesso = {
     numero_processo: { type: 'string', minLength: 1 },
     descricao: { type: 'string', minLength: 1 },
     status: { type: 'string', minLength: 1 },
+    id_advogado: { type: ['integer', 'string'] }, // ← AGORA ELE CONHECE ESSE CAMPO
   },
   additionalProperties: false,
 };

@@ -2,6 +2,8 @@
 npm install jsonwebtoken dotenv
 # (bcrypt você já tem)
 
+lalalalal
+
 Pacote de programação para disciplinas de desenvolvimento web back-end, utilizando Javascript com Nodejs + [Express](https://expressjs.com/). O Objetivo é servir de exemplo para a elaboração de uma API para comunicar dados em JSON a respeito de uma modelagem. É uma API RESTful com validações de schemas JSON ([Ajv](https://ajv.js.org/)) e para autenticação utiliza JWT Token ([jsownwebtoken](https://github.com/auth0/node-jsonwebtoken)). Na persistência de dados, se utiliza o ORM [Sequelize](https://sequelize.org/) com banco de dados em MySQL.
 
 Este projeto faz parte de uma série de aprendizado em APIs. Nesta mesma série, você pode acessar o mesmo projeto implementado com [PHP e Lumen](https://github.com/fabiosperotto/pratica-api-rest).

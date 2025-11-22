@@ -110,7 +110,9 @@ const AdvogadoModel = db.define(
     },
   },
   {
-    tableName: 'advogados',
+     tableName: 'advogados',
+    timestamps: false, // ← combinando com o banco.sql sem created_at/updated_at
+  
   }
 );
 

@@ -124,7 +124,8 @@ const ProcessoModel = db.define(
     },
   },
   {
-    tableName: 'processos',
+      tableName: 'processos',
+    timestamps: false, // sem created_at/updated_at
   }
 );
 

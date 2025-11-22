@@ -1,17 +1,15 @@
 // app/models/index.js
 const conexao = require('./conexao.js');
 
-const db = {}; // armazenar as classes e models
+// Carrega e registra os models no Sequelize (efeito colateral)
+require('./Usuario.js');
+require('./Advogado.js');
+require('./Processo.js');
 
-// === MODELS DA PROVA ===
-db.usuario = require('./Usuario.js');   // arquivo: app/models/Usuario.js
-db.advogado = require('./Advogado.js'); // arquivo: app/models/Advogado.js
-db.processo = require('./Processo.js'); // arquivo: app/models/Processo.js
-
-// RELACIONAMENTOS (Advogado 1:N Processo)
+// Configura os relacionamentos
 require('./relations.js')(conexao.models);
 
-// sincronizar com o BD
+// Sincroniza com o BD
 conexao
   .sync({})
   .then(() => {
@@ -21,4 +19,5 @@ conexao
     console.log('falha ao sincronizar: ' + err.message);
   });
 
-module.exports = db;
+// Exporta diretamente os models do Sequelize
+module.exports = conexao.models;

@@ -1,6 +1,10 @@
 const express = require('express');
+// app.js
+require('./models'); // só isso já executa as associações
 require('dotenv').config(); // carrega JWT_SECRET etc.
 const app = express();
+
+
 
 // middleware pra ler JSON do body
 app.use(express.json());

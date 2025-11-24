@@ -92,6 +92,7 @@ Dentro da pasta do projeto, instalar as dependências:
 
 ```text
 npm install
+
 ```
 
 Certificar-se de que o MySQL está rodando e o banco advocacia_db existe.

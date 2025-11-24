@@ -75,10 +75,6 @@ app.js            # ponto de entrada da aplicação (Express)
 config.js         # configurações globais (BD e JWT)
 package.json      # metadados e dependências do projeto
 
-```
-
----
-
 ## Configuração do Banco de Dados
 
 Crie um banco de dados MySQL, por exemplo: advocacia_db

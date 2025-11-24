@@ -77,12 +77,16 @@ package.json      # metadados e dependências do projeto
 
 ```
 
+---
+
 ## Configuração do Banco de Dados
 
 Crie um banco de dados MySQL, por exemplo: advocacia_db
 (pode ser pelo phpMyAdmin ou outro cliente).
 
 No XAMPP, inicie o MySQL e o Apache. 
+
+---
 
 ## Instalação e Execução
 
@@ -106,6 +110,8 @@ npx nodemon
 
 A API ficará disponível em (por padrão):
 http://localhost:3000
+
+---
 
 ## Autenticação e Fluxo de Uso
 
@@ -161,6 +167,8 @@ POST /processos
 Para acessar essas rotas, é obrigatório enviar o token no cabeçalho:
 
 Authorization: Bearer SEU_TOKEN_AQUI
+
+---
 
 ## Exemplo no Postman:
 

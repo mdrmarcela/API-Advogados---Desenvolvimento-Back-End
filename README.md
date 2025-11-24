@@ -85,6 +85,11 @@ No XAMPP, inicie o MySQL e o Apache.
 
 ---
 
+## Diagrama do Banco de dados 
+![Diagrama do Banco de Dados](modelagem/Modelagem.png)
+
+---
+
 ## Instalação e Execução
 
 Clonar ou baixar este repositório.

@@ -75,6 +75,8 @@ app.js            # ponto de entrada da aplicação (Express)
 config.js         # configurações globais (BD e JWT)
 package.json      # metadados e dependências do projeto
 
+```
+
 ## Configuração do Banco de Dados
 
 Crie um banco de dados MySQL, por exemplo: advocacia_db
@@ -88,15 +90,19 @@ Clonar ou baixar este repositório.
 
 Dentro da pasta do projeto, instalar as dependências:
 
+```text
 npm install
+```
 
 Certificar-se de que o MySQL está rodando e o banco advocacia_db existe.
 
 Iniciar a aplicação em modo desenvolvimento:
 
+```text
 npm run dev
 # ou
 npx nodemon
+```
 
 A API ficará disponível em (por padrão):
 http://localhost:3000
@@ -140,6 +146,7 @@ Body (JSON):
 
 Alguns exemplos de rotas protegidas por JWT:
 
+```text
 GET /usuarios
 
 GET /advogados
@@ -149,7 +156,7 @@ POST /advogados
 GET /processos
 
 POST /processos
-(e demais rotas de CRUD conforme implementado)
+```
 
 Para acessar essas rotas, é obrigatório enviar o token no cabeçalho:
 
@@ -172,43 +179,3 @@ Verificar se é um Bearer Token;
 Validar o JWT usando o segredo configurado em config.js;
 
 Bloquear a requisição caso o token seja inválido ou ausente.
-
-Endpoints Principais (Resumo)
-
-POST /usuarios – cadastra usuário (público)
-
-POST /usuarios/login – login e geração de token (público)
-
-GET /usuarios – lista usuários (protegido por JWT)
-
-POST /advogados – cadastra advogado (protegido)
-
-GET /advogados – lista advogados (protegido)
-
-POST /processos – cadastra processo (protegido)
-
-GET /processos – lista processos (protegido)
-
-(Os detalhes exatos podem variar conforme os controllers implementados.)
-
-Documentações Externas
-
-Express
-
-Sequelize ORM
-
-JSON Web Tokens (JWT)
-
-MySQL
-
-Contribuindo / Estudando
-
-Este projeto pode ser usado como base de estudo para:
-
-Configurar uma API REST com Node.js e Express;
-
-Usar Sequelize para mapear tabelas MySQL;
-
-Implementar autenticação com JWT e senhas com bcrypt;
-
-Organizar o código em camadas (models, controllers, routes, middlewares).

@@ -70,60 +70,25 @@ Estrutura principal de pastas/arquivos:
   /middlewares    # middlewares, ex.: validação de token JWT
   /models         # models Sequelize e conexão com o banco
   /routes         # definição das rotas da API
-/modelagem        # arquivos de modelagem/diagrama do banco (opcional)
+/modelagem        # arquivos de modelagem/diagrama do banco 
 app.js            # ponto de entrada da aplicação (Express)
 config.js         # configurações globais (BD e JWT)
 package.json      # metadados e dependências do projeto
 
-Configuração do Banco de Dados
+## Configuração do Banco de Dados
 
 Crie um banco de dados MySQL, por exemplo: advocacia_db
 (pode ser pelo phpMyAdmin ou outro cliente).
 
-No arquivo config.js, configure os dados de acesso ao MySQL:
+No XAMPP, inicie o MySQL e o Apache. 
 
-// config.js (exemplo)
-module.exports = {
-  dbconfig: {
-    database: 'advocacia_db',
-    user: 'root',
-    passwd: '',        // senha do MySQL (em branco se não tiver)
-    host: 'localhost',
-    dialect: 'mysql',
-    // opcionalmente: port: 3306,
-    pool: {
-      max: 5,
-      min: 0,
-      acquire: 30000,
-      idle: 10000,
-    },
-    define: {
-      underscored: false,
-      freezeTableName: false,
-      timestamps: true,
-      paranoid: false,
-    },
-  },
-
-  jwt: {
-    // segredo usado para assinar/verificar tokens JWT
-    secret: process.env.JWT_SECRET || 'uma_chave_bem_grande_e_secreta',
-    expiresIn: process.env.JWT_EXPIRES_IN || '1h',
-  },
-};
-
-Instalação e Execução
+## Instalação e Execução
 
 Clonar ou baixar este repositório.
 
 Dentro da pasta do projeto, instalar as dependências:
 
 npm install
-
-(Opcional) Criar um arquivo .env na raiz com:
-
-JWT_SECRET=uma_chave_bem_grande_e_secreta
-JWT_EXPIRES_IN=1h
 
 Certificar-se de que o MySQL está rodando e o banco advocacia_db existe.
 
@@ -136,8 +101,7 @@ npx nodemon
 A API ficará disponível em (por padrão):
 http://localhost:3000
 
-
-Autenticação e Fluxo de Uso
+## Autenticação e Fluxo de Uso
 
 A API utiliza JWT (JSON Web Token) para proteger as rotas.
 Fluxo básico:
@@ -191,8 +155,7 @@ Para acessar essas rotas, é obrigatório enviar o token no cabeçalho:
 
 Authorization: Bearer SEU_TOKEN_AQUI
 
-
-Exemplo no Postman:
+## Exemplo no Postman:
 
 Aba Authorization
 

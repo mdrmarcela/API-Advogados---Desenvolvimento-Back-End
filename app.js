@@ -5,13 +5,22 @@ require('dotenv').config(); // carrega JWT_SECRET etc.
 // carrega models + relations + sync com o BD
 require('./app/models'); // ← AQUI é o caminho certo
 
+const swaggerUi = require('swagger-ui-express');
+const swaggerDocument = require('./swagger.json');
+
+// middleware de autenticação
+const auth = require('./app/middlewares/TokenValido');
+
+
 const app = express();
 
 // middleware pra ler JSON do body
 app.use(express.json());
 
-// middleware de autenticação
-const auth = require('./app/middlewares/TokenValido');
+
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+
 
 // rotas
 const usuarioRoutes = require('./app/routes/usuario.routes');

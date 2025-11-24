@@ -145,7 +145,8 @@ Body (JSON):
   "senha": "123456"
 }
 
-3. ```md
+---
+
 ## Rotas principais
 
 ### Usuários
@@ -167,6 +168,8 @@ Body (JSON):
 - `PUT /processos/:id` – atualiza processo (protegida)
 - `DELETE /processos/:id` – remove processo (protegida)
 
+---
+
 ## Exemplo no Postman:
 
 Aba Authorization
@@ -184,6 +187,8 @@ Verificar se é um Bearer Token;
 Validar o JWT usando o segredo configurado em config.js;
 
 Bloquear a requisição caso o token seja inválido ou ausente.
+
+---
 
 ## Documentação da API (Swagger)
 

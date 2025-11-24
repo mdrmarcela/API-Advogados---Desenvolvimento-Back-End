@@ -194,4 +194,4 @@ Bloquear a requisição caso o token seja inválido ou ausente.
 
 A documentação interativa da API está disponível em:
 
-- `http://localhost:3000/docs`  (ou a rota que você configurou)
+- `http://localhost:3000/docs`  

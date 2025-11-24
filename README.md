@@ -74,6 +74,7 @@ Estrutura principal de pastas/arquivos:
 app.js            # ponto de entrada da aplicação (Express)
 config.js         # configurações globais (BD e JWT)
 package.json      # metadados e dependências do projeto
+```
 
 ## Configuração do Banco de Dados
 
@@ -92,7 +93,6 @@ Dentro da pasta do projeto, instalar as dependências:
 
 ```text
 npm install
-
 ```
 
 Certificar-se de que o MySQL está rodando e o banco advocacia_db existe.

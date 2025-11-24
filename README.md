@@ -145,27 +145,27 @@ Body (JSON):
   "senha": "123456"
 }
 
-3. Rotas Protegidas
+3. ```md
+## Rotas principais
 
-Alguns exemplos de rotas protegidas por JWT:
+### Usuários
+- `POST /usuarios` – cadastro de usuário
+- `POST /usuarios/login` – login e geração de JWT
+- `GET /usuarios` – lista usuários (rota protegida)
 
-```text
-GET /usuarios
+### Advogados
+- `GET /advogados` – lista todos
+- `GET /advogados/:id` – busca por id
+- `POST /advogados` – cria advogado (protegida)
+- `PUT /advogados/:id` – atualiza advogado (protegida)
+- `DELETE /advogados/:id` – remove advogado (protegida)
 
-GET /advogados
-
-POST /advogados
-
-GET /processos
-
-POST /processos
-```
-
-Para acessar essas rotas, é obrigatório enviar o token no cabeçalho:
-
-Authorization: Bearer SEU_TOKEN_AQUI
-
----
+### Processos
+- `GET /processos` – lista processos
+- `GET /processos/:id` – busca por id
+- `POST /processos` – cria processo (protegida)
+- `PUT /processos/:id` – atualiza processo (protegida)
+- `DELETE /processos/:id` – remove processo (protegida)
 
 ## Exemplo no Postman:
 
@@ -184,3 +184,9 @@ Verificar se é um Bearer Token;
 Validar o JWT usando o segredo configurado em config.js;
 
 Bloquear a requisição caso o token seja inválido ou ausente.
+
+## Documentação da API (Swagger)
+
+A documentação interativa da API está disponível em:
+
+- `http://localhost:3000/docs`  (ou a rota que você configurou)

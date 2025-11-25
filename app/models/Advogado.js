@@ -1,4 +1,3 @@
-// models/Advogado.js
 const Sequelize = require('sequelize');
 const db = require('./conexao.js');
 
@@ -102,7 +101,7 @@ const AdvogadoModel = db.define(
     oab: {
       type: Sequelize.STRING(20),
       allowNull: false,
-      unique: true, // enunciado pede OAB única
+      unique: true, 
     },
     especialidade: {
       type: Sequelize.STRING(100),
@@ -111,7 +110,7 @@ const AdvogadoModel = db.define(
   },
   {
      tableName: 'advogados',
-    timestamps: false, // ← combinando com o banco.sql sem created_at/updated_at
+    timestamps: false, 
   
   }
 );

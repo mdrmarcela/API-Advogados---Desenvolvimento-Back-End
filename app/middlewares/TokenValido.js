@@ -12,7 +12,7 @@ class TokenValido {
       });
     }
 
-    //se o cabecalho de autenticacao bearer nao foi fornecido:
+    //se o cabecalho de autenticacao bearer não foi fornecido:
     if (!cabecalhoAuth.startsWith('Bearer')) {
       return response.status(401).json({
         message: 'mecanismo de autenticacao invalido, configure Bearer Token.',
@@ -20,7 +20,7 @@ class TokenValido {
     }
 
     const token = cabecalhoAuth.split(' ')[1];
-    //se o cabecalho de autenticacao foi fornecido mas o token nao foi:
+    //se o cabecalho de autenticacao foi fornecido mas o token não foi:
     if (!token) {
       return response.status(401).json({
         message: 'Bearer token nao fornecido.',

@@ -1,6 +1,4 @@
-// app/controllers/AdvogadoController.js
 const models = require('../models');
-
 const AdvogadoModel =
   models.advogado.AdvogadoModel || models.advogado;
 const ProcessoModel =
@@ -117,7 +115,6 @@ const AdvogadoController = {
     try {
       const { id } = req.params;
 
-      // REGRA DE NEGÓCIO DA PROVA:
       // não permitir excluir advogado com processos vinculados
       const qtdProcessos = await ProcessoModel.count({
         where: { id_advogado: id },
@@ -135,7 +132,6 @@ const AdvogadoController = {
         return res.status(404).json({ erro: 'Advogado não encontrado' });
       }
 
-      // pode ser 204 ou 200, mas 204 está ok
       return res.status(204).send();
     } catch (error) {
       console.error(error);

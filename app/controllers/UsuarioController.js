@@ -1,11 +1,8 @@
-// app/controllers/UsuarioController.js
 const models = require('../models');
-// Se models.usuario tiver .UsuarioModel, usa ele.
-// Se não tiver, usa o próprio models.usuario como model.
 const UsuarioModel = models.usuario.UsuarioModel || models.usuario;
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const config = require('../../config.js'); // mesmo caminho que o tokenValido usa
+const config = require('../../config.js'); 
 
 // ===== AJV (validação) =====
 const Ajv = require('ajv');
@@ -20,7 +17,6 @@ const schemaCadastroUsuario = {
     email: {
       type: 'string',
       minLength: 5,
-      // simples, sem precisar de plugin de formato
       pattern: '^.+@.+\\..+$',
     },
     senha: { type: 'string', minLength: 6 },

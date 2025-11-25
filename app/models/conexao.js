@@ -1,4 +1,3 @@
-// app/models/conexao.js (ou onde ele estiver)
 const config = require('../../config.js');
 const dbconfig = config.dbconfig;
 const Sequelize = require('sequelize');
@@ -19,7 +18,7 @@ const conexao = new Sequelize(
     define: {
       underscored: dbconfig.define.underscored,
       freezeTableName: dbconfig.define.freezeTableName,
-      timestamps: dbconfig.define.timestamps, // 🔴 aqui era o bug
+      timestamps: dbconfig.define.timestamps, 
       paranoid: dbconfig.define.paranoid,
     },
     dialectOptions: {
@@ -35,7 +34,6 @@ const conexao = new Sequelize(
   }
 );
 
-// testando conexao (jeito correto, com Promise)
 conexao
   .authenticate()
   .then(() => {

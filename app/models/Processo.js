@@ -1,4 +1,3 @@
-// models/Processo.js
 const Sequelize = require('sequelize');
 const db = require('./conexao.js');
 
@@ -120,12 +119,12 @@ const ProcessoModel = db.define(
     },
     id_advogado: {
       type: Sequelize.INTEGER,
-      allowNull: false, // FK ficará aqui
+      allowNull: false, 
     },
   },
   {
       tableName: 'processos',
-    timestamps: false, // sem created_at/updated_at
+    timestamps: false, 
   }
 );
 

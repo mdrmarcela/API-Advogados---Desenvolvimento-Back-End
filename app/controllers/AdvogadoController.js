@@ -1,13 +1,15 @@
+//Cuida das rotas do Advogado (CRUD) e faz a validação com Ajv. 
 const models = require('../models');
 const AdvogadoModel =
   models.advogado.AdvogadoModel || models.advogado;
 const ProcessoModel =
   models.processo.ProcessoModel || models.processo;
 
-// ===== AJV (validação) =====
+// Validação com Ajv 
 const Ajv = require('ajv');
 const ajv = new Ajv({ allErrors: true });
 
+//Explica como o corpo do req.body precisa ser. 
 const schemaAdvogado = {
   type: 'object',
   required: ['nome', 'oab', 'especialidade'],
@@ -19,7 +21,7 @@ const schemaAdvogado = {
   additionalProperties: false,
 };
 
-const validateAdvogado = ajv.compile(schemaAdvogado);
+const validateAdvogado = ajv.compile(schemaAdvogado); //Validação 
 
 const AdvogadoController = {
   // POST /advogados
@@ -36,7 +38,7 @@ const AdvogadoController = {
     try {
       const { nome, oab, especialidade } = req.body;
 
-      const advogado = await AdvogadoModel.create({ nome, oab, especialidade });
+      const advogado = await AdvogadoModel.create({ nome, oab, especialidade }); //Chama o create para gravar no BD. 
       return res.status(201).json(advogado);
     } catch (error) {
       console.error(error);
@@ -61,14 +63,14 @@ const AdvogadoController = {
   // GET /advogados/:id
   async buscarPorId(req, res) {
     try {
-      const { id } = req.params;
-      const advogado = await AdvogadoModel.findByPk(id);
+      const { id } = req.params; //Pega o id da url.
+      const advogado = await AdvogadoModel.findByPk(id); //Busca pela PK. 
 
       if (!advogado) {
         return res.status(404).json({ erro: 'Advogado não encontrado' });
       }
 
-      return res.json(advogado);
+      return res.json(advogado); //Achou, retorna o advogado.
     } catch (error) {
       console.error(error);
       return res.status(500).json({ erro: 'Erro ao buscar advogado' });
@@ -95,12 +97,12 @@ const AdvogadoController = {
         { where: { id } }
       );
 
-      if (linhasAfetadas === 0) {
+      if (linhasAfetadas === 0) { //Ninguém com esse id 
         return res.status(404).json({ erro: 'Advogado não encontrado' });
       }
 
-      const advogadoAtualizado = await AdvogadoModel.findByPk(id);
-      return res.json(advogadoAtualizado);
+      const advogadoAtualizado = await AdvogadoModel.findByPk(id); //Busca atualizado 
+      return res.json(advogadoAtualizado); //Devolde o advogado atualizado 
     } catch (error) {
       console.error(error);
       if (error.name === 'SequelizeUniqueConstraintError') {
@@ -126,7 +128,7 @@ const AdvogadoController = {
         });
       }
 
-      const apagados = await AdvogadoModel.destroy({ where: { id } });
+      const apagados = await AdvogadoModel.destroy({ where: { id } }); //Deleta o advogado. 
 
       if (apagados === 0) {
         return res.status(404).json({ erro: 'Advogado não encontrado' });

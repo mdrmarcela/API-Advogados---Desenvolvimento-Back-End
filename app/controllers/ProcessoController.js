@@ -3,6 +3,7 @@ const ProcessoModel =
   models.processo.ProcessoModel || models.processo;
 const AdvogadoModel =
   models.advogado.AdvogadoModel || models.advogado;
+
 const Ajv = require('ajv');
 const ajv = new Ajv({ allErrors: true });
 
@@ -13,7 +14,7 @@ const schemaProcesso = {
     numero_processo: { type: 'string', minLength: 1 },
     descricao: { type: 'string', minLength: 1 },
     status: { type: 'string', minLength: 1 },
-    id_advogado: { type: ['integer', 'string'] }, 
+    id_advogado: { type: ['integer', 'string'] }, //Não é obrigatório 
   },
   additionalProperties: false,
 };
@@ -47,7 +48,7 @@ const ProcessoController = {
         return res.status(404).json({ erro: 'Advogado não encontrado' });
       }
 
-      const processo = await ProcessoModel.create({
+      const processo = await ProcessoModel.create({ //Cria o processo no banco de dados
         numero_processo,
         descricao,
         status,
@@ -67,7 +68,7 @@ const ProcessoController = {
   // GET /processos
   async listar(req, res) {
     try {
-      const processos = await ProcessoModel.findAll();
+      const processos = await ProcessoModel.findAll(); //Busca todos os processos no banco. 
       return res.json(processos);
     } catch (error) {
       console.error(error);
@@ -118,8 +119,8 @@ const ProcessoController = {
         { numero_processo, descricao, status, id_advogado },
         { where: { id } }
       );
-
-      if (linhasAfetadas === 0) {
+ 
+      if (linhasAfetadas === 0) { //Tenta encontrar o processo pelo ID e atualizar
         return res.status(404).json({ erro: 'Processo não encontrado' });
       }
 
@@ -139,13 +140,13 @@ const ProcessoController = {
     try {
       const { id } = req.params;
 
-      const apagados = await ProcessoModel.destroy({ where: { id } });
+      const apagados = await ProcessoModel.destroy({ where: { id } }); //apaga as linhas
 
-      if (apagados === 0) {
+      if (apagados === 0) { //apagados é o número de linhas apagadas (se for 0 é porque não tem processo com aquele id)
         return res.status(404).json({ erro: 'Processo não encontrado' });
       }
 
-      return res.status(204).send();
+      return res.status(204).send(); //maior que zero, então o processo foi deletado
     } catch (error) {
       console.error(error);
       return res.status(500).json({ erro: 'Erro ao deletar processo' });
@@ -163,7 +164,7 @@ const ProcessoController = {
         return res.status(404).json({ erro: 'Advogado não encontrado' });
       }
 
-      const processos = await ProcessoModel.findAll({
+      const processos = await ProcessoModel.findAll({ //Busca todos os processos do advogado
         where: { id_advogado },
       });
 
@@ -194,14 +195,14 @@ const ProcessoController = {
         return res.status(404).json({ erro: 'Advogado não encontrado' });
       }
 
-      const processo = await ProcessoModel.create({
+      const processo = await ProcessoModel.create({ //Cria o processo no banco de dados
         numero_processo,
         descricao,
         status,
         id_advogado,
       });
 
-      return res.status(201).json(processo);
+      return res.status(201).json(processo); //Trata erros igual ao criar. 
     } catch (error) {
       console.error(error);
       if (error.name === 'SequelizeUniqueConstraintError') {

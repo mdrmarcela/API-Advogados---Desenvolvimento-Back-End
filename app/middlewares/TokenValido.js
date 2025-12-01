@@ -1,13 +1,15 @@
+//Middleware de seguranca para validar token JWT
+
 const jwt = require('jsonwebtoken');
 const config = require('../../config.js');
 
 class TokenValido {
-  async check(request, response, next) {
+  async check(request, response, next) { //check: middleware que roda antes do controller. //next: manda seguir para o proximo controller se estiver tudo certo. 
     const cabecalhoAuth = request.headers['authorization'];
 
-    //se nenhum cabecalho de autenticacao foi fornecido:
+    //se não vier nada do header eu bloqueio:
     if (!cabecalhoAuth) {
-      return response.status(401).json({
+      return response.status(401).json({ //401, falta autorização. 
         message: 'Sem autorizacao ou nao possui authorization nos headers da requisicao.',
       });
     }
@@ -28,14 +30,13 @@ class TokenValido {
     }
 
     //verifica token JWT
-    jwt.verify(token, config.jwt.secret, (erro, clientedata) => {
+    jwt.verify(token, config.jwt.secret, (erro, clientedata) => { //confere se tem o mesmo segredo, se não expirou
       if (erro) {
         return response.status(403).json({
           message: 'token esta invalido, realize o login novamente.',
         });
       }
-      // request.client = clientedata; //caso queira salvar os dados do cliente
-      next();
+      next(); //segue a requisição. (vai para o controller)
     });
   }
 }

@@ -52,13 +52,12 @@ class Usuario {
     }
   }
 
-  // opcional: para login depois
-  static async checkPassword(email, senhaEmTexto) {
+  static async checkPassword(email, senhaEmTexto) { //Rota de login 
     try {
       const usuario = await UsuarioModel.findOne({ where: { email } });
-      if (!usuario) return null;
+      if (!usuario) return null; //Não achou o usuário 
 
-      const ok = await bcrypt.compare(senhaEmTexto, usuario.senha);
+      const ok = await bcrypt.compare(senhaEmTexto, usuario.senha); //Se achou compara a senha que o usuário mandou com o hash
       if (!ok) return null;
 
       return usuario;
@@ -93,16 +92,16 @@ const UsuarioModel = db.define(
   },
   {
     tableName: 'usuarios',
-    timestamps: false, // 👈 IMPORTANTE: diz pro Sequelize que NÃO existem createdAt/updatedAt
+    timestamps: false, 
     hooks: {
-      async beforeCreate(usuario) {
+      async beforeCreate(usuario) { //Roda antes de criar um novo usuário
         if (usuario.senha) {
-          const hash = await bcrypt.hash(usuario.senha, 10);
+          const hash = await bcrypt.hash(usuario.senha, 10); //Gera o hash, nenhuma senha vai para o banco
           usuario.senha = hash;
         }
       },
-      async beforeUpdate(usuario) {
-        if (usuario.changed('senha')) {
+      async beforeUpdate(usuario) { //Roda antes de atualizar um usuário
+        if (usuario.changed('senha')) { //Permite mudar a senha sem quebrar. 
           const hash = await bcrypt.hash(usuario.senha, 10);
           usuario.senha = hash;
         }

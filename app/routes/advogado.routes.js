@@ -4,9 +4,6 @@ const AdvogadoController = require('../controllers/AdvogadoController');
 const ProcessoController = require('../controllers/ProcessoController');
 const TokenValido = require('../middlewares/TokenValido');
 
-// protege TODAS as rotas de advogado
-router.use(TokenValido.check);
-
 // CRUD
 router.post('/', AdvogadoController.criar);           // criar
 router.get('/', AdvogadoController.listar);           // listar todos

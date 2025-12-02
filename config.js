@@ -1,9 +1,8 @@
-// config.js
 module.exports = {
   dbconfig: {
-    database: 'advogados_db', // nome do banco que você criou no phpMyAdmin
+    database: 'advogados_db', // nome do banco no phpMyAdmin
     user: 'root',             // padrão do XAMPP
-    passwd: '',               // senha em branco (se não configurou outra)
+    passwd: '',               // senha em branco 
     host: 'localhost',
     dialect: 'mysql',
 
@@ -17,15 +16,13 @@ module.exports = {
     define: {
       underscored: false,
       freezeTableName: false,
-      timestamps: true, // se NÃO quiser createdAt/updatedAt, pode pôr false
+      timestamps: true, 
       paranoid: false,
     },
   },
 
-  // 🔐 CONFIG DO JWT
   jwt: {
-    // pode deixar fixa ou pegar de variável de ambiente
     secret: process.env.JWT_SECRET || 'minha_chave_super_secreta_123',
-    expiresIn: '1h', // 1 hora, combina com o que usamos no login
+    expiresIn: '1h', 
   },
 };

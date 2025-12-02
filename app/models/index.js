@@ -1,7 +1,7 @@
 const conexao = require('./conexao.js');
 
 // Carrega e registra os models no Sequelize
-require('./Usuario.js');
+require('./Usuario.js'); //Não carrega nada, apenas executa. 
 require('./Advogado.js');
 require('./Processo.js');
 
@@ -19,3 +19,9 @@ conexao
 
 // Exporta diretamente os models do Sequelize
 module.exports = conexao.models;
+
+
+// Explico que um advogado tem vários processsos;
+//Um processo pertence a um advogado;
+
+//Todos os models passam por aqui antes de ir para os controllers. 

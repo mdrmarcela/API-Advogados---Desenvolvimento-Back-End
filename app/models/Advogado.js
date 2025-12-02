@@ -29,7 +29,7 @@ class Advogado {
     this.#especialidade = e;
   }
 
-  static async findByPk(id) {
+  static async findByPk(id) { //Métodos que falam com o banco 
     try {
       const resultado = await AdvogadoModel.findByPk(id);
       return resultado || null;
@@ -47,7 +47,7 @@ class Advogado {
     }
   }
 
-  static async create(novoAdvogado) {
+  static async create(novoAdvogado) { //Recebe o novo advogado, chama o create, criao registro no banco e devolte. 
     try {
       const advogado = await AdvogadoModel.create({
         nome: novoAdvogado.nome,
@@ -60,7 +60,7 @@ class Advogado {
     }
   }
 
-  static async update(dados, idAdvogado) {
+  static async update(dados, idAdvogado) { //Atualiza os dados do advogado. 
     try {
       const resultado = await AdvogadoModel.update(dados, {
         where: { id: idAdvogado },

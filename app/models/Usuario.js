@@ -1,4 +1,3 @@
-// models/Usuario.js
 const Sequelize = require('sequelize');
 const bcrypt = require('bcrypt');
 const db = require('./conexao.js');

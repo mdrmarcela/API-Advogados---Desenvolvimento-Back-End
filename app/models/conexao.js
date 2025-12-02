@@ -1,8 +1,10 @@
+//Conexão do sequelize com o banco de dados
+
 const config = require('../../config.js');
 const dbconfig = config.dbconfig;
 const Sequelize = require('sequelize');
 
-const conexao = new Sequelize(
+const conexao = new Sequelize( //Instanciando o Sequelize. Passando os parametros de conexão
   dbconfig.database,
   dbconfig.user,
   dbconfig.passwd,

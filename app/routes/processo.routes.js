@@ -1,4 +1,3 @@
-// app/routes/processo.routes.js
 const express = require('express');
 const router = express.Router();
 const ProcessoController = require('../controllers/ProcessoController');

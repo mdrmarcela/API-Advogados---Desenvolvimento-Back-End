@@ -5,13 +5,13 @@ CREATE DATABASE IF NOT EXISTS advogados_db
 
 USE advogados_db;
 
--- apaga tabelas antigas se tiver algo errado (cuidado: perde dados)
+-- apaga tabelas antigas se tiver algo errado (CUIDADO: perde dados)
 DROP TABLE IF EXISTS processos;
 DROP TABLE IF EXISTS usuarios;
 DROP TABLE IF EXISTS advogados;
 
 -- TABELA USUÁRIOS
-CREATE TABLE usuario (
+CREATE TABLE usuarios (
   id INT NOT NULL AUTO_INCREMENT,
   nome VARCHAR(100) NOT NULL,
   email VARCHAR(150) NOT NULL UNIQUE,
@@ -20,7 +20,7 @@ CREATE TABLE usuario (
 ) ENGINE=InnoDB;
 
 -- TABELA ADVOGADOS
-CREATE TABLE advogado (
+CREATE TABLE advogados (
   id INT NOT NULL AUTO_INCREMENT,
   nome VARCHAR(100) NOT NULL,
   oab VARCHAR(20) NOT NULL UNIQUE,
@@ -29,7 +29,7 @@ CREATE TABLE advogado (
 ) ENGINE=InnoDB;
 
 -- TABELA PROCESSOS
-CREATE TABLE processo (
+CREATE TABLE processos (
   id INT NOT NULL AUTO_INCREMENT,
   numero_processo VARCHAR(50) NOT NULL UNIQUE,
   descricao TEXT NULL,
